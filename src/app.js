@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const usersRouter = require('./routes/users');
 
 mongoose.connect('mongodb://localhost:27017/news-explorer-db', {
   useNewUrlParser: true,
@@ -12,6 +13,7 @@ const app = express.Router();
 
 app.use(bodyParser.json());
 
+app.use('/users', usersRouter);
 app.use('/', (req, res) => {
   res.status(404);
   res.send({ message: 'Requested resource not found' });
