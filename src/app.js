@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const usersRouter = require('./routes/users');
+const articlesRouter = require('./routes/articles');
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ const app = express.Router();
 app.use(bodyParser.json());
 
 app.use('/users', usersRouter);
+app.use('/articles', articlesRouter);
 app.use('/', (req, res) => {
   res.status(404);
   res.send({ message: 'Requested resource not found' });
