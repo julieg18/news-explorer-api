@@ -23,7 +23,7 @@ function loginUser(req, res, next) {
     .catch(next);
 }
 
-function getCurrentUser(req, res, next) {
+function getLoggedInUser(req, res, next) {
   const { userId } = req.user;
   User.findById(userId)
     .then(({ email, name }) => {
@@ -32,4 +32,4 @@ function getCurrentUser(req, res, next) {
     .catch(next);
 }
 
-module.exports = { signupUser, loginUser, getCurrentUser };
+module.exports = { signupUser, loginUser, getLoggedInUser };

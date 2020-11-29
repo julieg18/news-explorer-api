@@ -4,13 +4,13 @@ const { validateSignupUserData } = require('../middleware/users');
 const {
   signupUser,
   loginUser,
-  getCurrentUser,
+  getLoggedInUser,
 } = require('../controllers/users');
 
 const router = express.Router();
 
 router.post('/signup', validateSignupUserData, signupUser);
 router.post('/signin', loginUser);
-router.get('/me', checkUserAuthorization, getCurrentUser);
+router.get('/me', checkUserAuthorization, getLoggedInUser);
 
 module.exports = router;
