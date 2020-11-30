@@ -2,8 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const usersRouter = require('./routes/users');
-const articlesRouter = require('./routes/articles');
+const routesRouter = require('./routes');
 const { requestLogger, errorLogger } = require('./middleware/logger');
 
 dotenv.config();
@@ -19,8 +18,7 @@ const app = express.Router();
 app.use(requestLogger);
 app.use(bodyParser.json());
 
-app.use('/users', usersRouter);
-app.use('/articles', articlesRouter);
+app.use('/', routesRouter);
 app.use('/', (req, res) => {
   res.status(404);
   res.send({ message: 'Requested resource not found' });
