@@ -8,7 +8,7 @@ const { requestLogger, errorLogger } = require('./middleware/logger');
 
 dotenv.config();
 
-mongoose.connect('mongodb://localhost:27017/news-explorer-db', {
+mongoose.connect(process.env.DB, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
