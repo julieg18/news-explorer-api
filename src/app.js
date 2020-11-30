@@ -2,7 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const helmet = require('helmet');
 const routesRouter = require('./routes');
+const rateLimiterUsingThirdParty = require('./middleware/rateLimiter');
 const { requestLogger, errorLogger } = require('./middleware/logger');
 
 dotenv.config();
@@ -15,8 +17,10 @@ mongoose.connect(process.env.DB, {
 
 const app = express.Router();
 
+app.use(helmet());
 app.use(requestLogger);
 app.use(bodyParser.json());
+app.use(rateLimiterUsingThirdParty);
 
 app.use('/', routesRouter);
 app.use('/', (req, res) => {
