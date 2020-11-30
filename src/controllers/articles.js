@@ -28,4 +28,13 @@ function getLoggedInUsersArticles(req, res, next) {
     .catch(next);
 }
 
-module.exports = { createArticle, getLoggedInUsersArticles };
+function deleteArticle(req, res, next) {
+  const { articleId } = req.params;
+  Article.findByIdAndDelete(articleId)
+    .then((article) => {
+      res.send({ message: 'Article deleted', article });
+    })
+    .catch(next);
+}
+
+module.exports = { createArticle, getLoggedInUsersArticles, deleteArticle };

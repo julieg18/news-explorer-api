@@ -1,4 +1,6 @@
 const ValidationError = require('../errors/ValidationError');
+const NotFoundError = require('../errors/NotFoundError');
+const AuthorizationError = require('../errors/AuthorizationError');
 const Article = require('../models/Article');
 
 function validateArticleData(req, res, next) {
@@ -24,4 +26,37 @@ function validateArticleData(req, res, next) {
     });
 }
 
-module.exports = { validateArticleData };
+function validateArticleId(req, res, next) {
+  const { articleId } = req.params;
+  Article.findById(articleId)
+    .then((article) => {
+      if (!article) {
+        throw new NotFoundError('Article not found');
+      }
+      next();
+    })
+    .catch((err) => {
+      next(
+        err.name === 'CastError' ? new NotFoundError('Article not found') : err,
+      );
+    });
+}
+
+function checkArticleAccess(req, res, next) {
+  const { articleId } = req.params;
+  Article.findById(articleId)
+    .select('+owner')
+    .then(({ owner }) => {
+      if (owner.toString() !== req.user.userId) {
+        throw new AuthorizationError('User does not have access to article');
+      }
+      next();
+    })
+    .catch(next);
+}
+
+module.exports = {
+  validateArticleData,
+  validateArticleId,
+  checkArticleAccess,
+};
