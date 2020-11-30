@@ -14,9 +14,7 @@ module.exports = {
   },
   rules: {
     'no-underscore-dangle': ['error', { allow: ['_id'] }],
-    'import/no-dynamic-require': 'off',
+    'no-unused-vars': ['error', { argsIgnorePattern: 'next' }],
     'object-curly-newline': 'off',
-    'implicit-arrow-linebreak': 'off',
-    'function-paren-newline': 'off',
   },
 };
