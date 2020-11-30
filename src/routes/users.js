@@ -1,5 +1,5 @@
 const express = require('express');
-const { checkUserAuthorization } = require('../middleware/middleware');
+const { checkUserAuthorization } = require('../middleware/auth');
 const {
   validateSignupUserData,
   checkIfUserEmailIsInUse,
