@@ -22,4 +22,16 @@ function validateSignupUserData(req, res, next) {
     });
 }
 
-module.exports = { validateSignupUserData };
+function checkIfUserEmailIsInUse(req, res, next) {
+  const { email } = req.body;
+  User.find({ email })
+    .then((users) => {
+      if (users.length > 0) {
+        throw new ValidationError('Email is already in use');
+      }
+      next();
+    })
+    .catch(next);
+}
+
+module.exports = { validateSignupUserData, checkIfUserEmailIsInUse };
