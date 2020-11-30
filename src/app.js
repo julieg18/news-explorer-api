@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const usersRouter = require('./routes/users');
 const articlesRouter = require('./routes/articles');
+const { requestLogger, errorLogger } = require('./middleware/logger');
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ mongoose.connect('mongodb://localhost:27017/news-explorer-db', {
 
 const app = express.Router();
 
+app.use(requestLogger);
 app.use(bodyParser.json());
 
 app.use('/users', usersRouter);
@@ -24,6 +26,7 @@ app.use('/', (req, res) => {
   res.send({ message: 'Requested resource not found' });
 });
 
+app.use(errorLogger);
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;
