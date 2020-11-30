@@ -19,4 +19,13 @@ function createArticle(req, res, next) {
     .catch(next);
 }
 
-module.exports = { createArticle };
+function getLoggedInUsersArticles(req, res, next) {
+  const { userId } = req.user;
+  Article.find({ owner: userId })
+    .then((articles) => {
+      res.send({ message: 'Articles found', articles });
+    })
+    .catch(next);
+}
+
+module.exports = { createArticle, getLoggedInUsersArticles };
