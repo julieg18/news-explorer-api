@@ -15,9 +15,15 @@ function loginUser(req, res, next) {
   const { email, password } = req.body;
   User.findUserByCredentials({ email, password })
     .then((user) => {
-      const token = jwt.sign({ userId: user._id }, process.env.JWT_KEY, {
-        expiresIn: '7d',
-      });
+      const token = jwt.sign(
+        { userId: user._id },
+        process.env.NODE_ENV === 'production'
+          ? process.env.JWT_KEY
+          : 'secret-key',
+        {
+          expiresIn: '7d',
+        },
+      );
       res.send({ message: 'Login successful', token });
     })
     .catch(next);

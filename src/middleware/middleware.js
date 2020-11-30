@@ -10,7 +10,10 @@ function checkUserAuthorization(req, res, next) {
 
     try {
       const token = authorization.replace('Bearer ', '');
-      const payload = jwt.verify(token, process.env.JWT_KEY);
+      const payload = jwt.verify(
+        token,
+        process.env.NODE_ENV === 'production' ? process.env.JWT : 'secret-key',
+      );
       req.user = payload;
     } catch (err) {
       throw new AuthorizationError('Authorization required');
