@@ -12,7 +12,9 @@ function checkUserAuthorization(req, res, next) {
       const token = authorization.replace('Bearer ', '');
       const payload = jwt.verify(
         token,
-        process.env.NODE_ENV === 'production' ? process.env.JWT : 'secret-key',
+        process.env.NODE_ENV === 'production'
+          ? process.env.JWT_KEY
+          : 'secret-key',
       );
       req.user = payload;
     } catch (err) {
