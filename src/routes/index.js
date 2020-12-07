@@ -19,7 +19,7 @@ routesRouter.post('/signin', loginUser);
 routesRouter.use('/users', usersRouter);
 routesRouter.use('/articles', articlesRouter);
 routesRouter.use('/', (req, res, next) => {
-  next(new NotFoundError('Requested user not found'));
+  next(new NotFoundError('Requested resource not found'));
 });
 
 module.exports = routesRouter;
