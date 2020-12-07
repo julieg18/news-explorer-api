@@ -24,10 +24,6 @@ app.use(bodyParser.json());
 app.use(rateLimiterUsingThirdParty);
 
 app.use('/', routesRouter);
-app.use('/', (req, res) => {
-  res.status(404);
-  res.send({ message: 'Requested resource not found' });
-});
 
 app.use(errorLogger);
 app.use((err, req, res, next) => {

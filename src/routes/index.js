@@ -6,6 +6,7 @@ const {
   checkIfUserEmailIsInUse,
 } = require('../middleware/users');
 const { signupUser, loginUser } = require('../controllers/users');
+const NotFoundError = require('../errors/NotFoundError');
 
 const routesRouter = express.Router();
 routesRouter.post(
@@ -17,5 +18,8 @@ routesRouter.post(
 routesRouter.post('/signin', loginUser);
 routesRouter.use('/users', usersRouter);
 routesRouter.use('/articles', articlesRouter);
+routesRouter.use('/', (req, res, next) => {
+  next(new NotFoundError('Requested user not found'));
+});
 
 module.exports = routesRouter;
