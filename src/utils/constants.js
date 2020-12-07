@@ -9,6 +9,13 @@ const errMessages = {
   resourceNotFound: 'Requested resource not found',
 };
 
-const resMessages = {};
+const resMessages = {
+  articleCreated: 'Article created',
+  articlesFound: 'Articles found',
+  articleDeleted: 'Article deleted',
+  loginSuccessful: 'Login successful',
+  userFound: 'User found',
+  rateLimitHasExceeded: 'You have exceeded the 100 requests in 24 hrs limit',
+};
 
 module.exports = { errMessages, resMessages };

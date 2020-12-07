@@ -1,6 +1,9 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const {
+  resMessages: { loginSuccessful, userFound },
+} = require('../utils/constants');
 
 function signupUser(req, res, next) {
   const { name, email, password } = req.body;
@@ -28,7 +31,7 @@ function loginUser(req, res, next) {
           expiresIn: '7d',
         },
       );
-      res.send({ message: 'Login successful', token });
+      res.send({ message: loginSuccessful, token });
     })
     .catch(next);
 }
@@ -37,7 +40,7 @@ function getLoggedInUser(req, res, next) {
   const { userId } = req.user;
   User.findById(userId)
     .then(({ email, name }) => {
-      res.send({ message: 'User found', user: { email, name } });
+      res.send({ message: userFound, user: { email, name } });
     })
     .catch(next);
 }
