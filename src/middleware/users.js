@@ -1,5 +1,8 @@
 const User = require('../models/User');
 const ValidationError = require('../errors/ValidationError');
+const {
+  errMessages: { userValidationFailed, userEmailAlreadyInUse },
+} = require('../utils/constants');
 
 function validateSignupUserData(req, res, next) {
   const { name, password = '', email } = req.body;
@@ -10,13 +13,13 @@ function validateSignupUserData(req, res, next) {
       if (isPasswordValid) {
         next();
       } else {
-        throw new ValidationError('User validation failed');
+        throw new ValidationError(userValidationFailed);
       }
     })
     .catch((err) => {
       next(
         err.name === 'ValidationError'
-          ? new ValidationError('User validation failed')
+          ? new ValidationError(userValidationFailed)
           : err,
       );
     });
@@ -27,7 +30,7 @@ function checkIfUserEmailIsInUse(req, res, next) {
   User.find({ email })
     .then((users) => {
       if (users.length > 0) {
-        throw new ValidationError('Email is already in use');
+        throw new ValidationError(userEmailAlreadyInUse);
       }
       next();
     })

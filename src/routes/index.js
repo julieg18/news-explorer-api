@@ -7,6 +7,9 @@ const {
 } = require('../middleware/users');
 const { signupUser, loginUser } = require('../controllers/users');
 const NotFoundError = require('../errors/NotFoundError');
+const {
+  errMessages: { resourceNotFound },
+} = require('../utils/constants');
 
 const routesRouter = express.Router();
 routesRouter.post(
@@ -19,7 +22,7 @@ routesRouter.post('/signin', loginUser);
 routesRouter.use('/users', usersRouter);
 routesRouter.use('/articles', articlesRouter);
 routesRouter.use('/', (req, res, next) => {
-  next(new NotFoundError('Requested resource not found'));
+  next(new NotFoundError(resourceNotFound));
 });
 
 module.exports = routesRouter;

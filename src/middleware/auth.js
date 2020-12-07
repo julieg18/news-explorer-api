@@ -1,11 +1,14 @@
 const jwt = require('jsonwebtoken');
 const AuthorizationError = require('../errors/AuthorizationError');
+const {
+  errMessages: { authorizationRequired },
+} = require('../utils/constants');
 
 function checkUserAuthorization(req, res, next) {
   const { authorization } = req.headers;
   try {
     if (!authorization || !authorization.startsWith('Bearer ')) {
-      throw new AuthorizationError('Authorization required');
+      throw new AuthorizationError(authorizationRequired);
     }
 
     try {
@@ -18,7 +21,7 @@ function checkUserAuthorization(req, res, next) {
       );
       req.user = payload;
     } catch (err) {
-      throw new AuthorizationError('Authorization required');
+      throw new AuthorizationError(authorizationRequired);
     }
     next();
   } catch (err) {
