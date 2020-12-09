@@ -1,11 +1,10 @@
 const ValidationError = require('../errors/ValidationError');
-const NotFoundError = require('../errors/NotFoundError');
 const AuthorizationError = require('../errors/AuthorizationError');
 const Article = require('../models/Article');
 const {
   errMessages: {
     articleValidationFailed,
-    articleNotFound,
+    articleIdNotValid,
     userDoesNotHaveArticleAccess,
   },
 } = require('../utils/constants');
@@ -38,12 +37,14 @@ function validateArticleId(req, res, next) {
   Article.findById(articleId)
     .then((article) => {
       if (!article) {
-        throw new NotFoundError(articleNotFound);
+        throw new ValidationError(articleIdNotValid);
       }
       next();
     })
     .catch((err) => {
-      next(err.name === 'CastError' ? new NotFoundError(articleNotFound) : err);
+      next(
+        err.name === 'CastError' ? new ValidationError(articleIdNotValid) : err,
+      );
     });
 }
 
