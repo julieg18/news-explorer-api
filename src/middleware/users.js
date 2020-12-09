@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const ValidationError = require('../errors/ValidationError');
+const ConflictError = require('../errors/ConflictError');
 const {
   errMessages: { userValidationFailed, userEmailAlreadyInUse },
 } = require('../utils/constants');
@@ -30,7 +31,7 @@ function checkIfUserEmailIsInUse(req, res, next) {
   User.find({ email })
     .then((users) => {
       if (users.length > 0) {
-        throw new ValidationError(userEmailAlreadyInUse);
+        throw new ConflictError(userEmailAlreadyInUse);
       }
       next();
     })
