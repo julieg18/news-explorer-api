@@ -1,6 +1,7 @@
 const errMessages = {
   articleValidationFailed: 'Article validation failed',
   articleIdNotValid: 'Article id is not valid',
+  articleNotFound: 'Article not found',
   userDoesNotHaveArticleAccess: 'User does not have access to article',
   authorizationRequired: 'Authorization required',
   userValidationFailed: 'User validation failed',

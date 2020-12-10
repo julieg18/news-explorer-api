@@ -2,6 +2,7 @@ const express = require('express');
 const { checkUserAuthorization } = require('../middleware/auth');
 const {
   validateArticleId,
+  checkIfArticleIdIsFound,
   checkArticleAccess,
   validateArticleData,
 } = require('../middleware/articles');
@@ -19,6 +20,7 @@ router.delete(
   '/:articleId',
   checkUserAuthorization,
   validateArticleId,
+  checkIfArticleIdIsFound,
   checkArticleAccess,
   deleteArticle,
 );
