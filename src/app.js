@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const helmet = require('helmet');
+const cors = require('cors');
 const routesRouter = require('./routes');
 const rateLimiterUsingThirdParty = require('./middleware/rateLimiter');
 const { requestLogger, errorLogger } = require('./middleware/logger');
@@ -19,6 +20,7 @@ mongoose.connect(process.env.DB || 'mongodb://localhost:27017/news-explorer', {
 
 const app = express.Router();
 
+app.use(cors());
 app.use(helmet());
 app.use(requestLogger);
 app.use(bodyParser.json());

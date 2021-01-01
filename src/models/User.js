@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const { isEmail } = require('validator');
-const ValidationError = require('../errors/ValidationError');
+const AuthorizationError = require('../errors/AuthorizationError');
 const {
   errMessages: { incorrectEmailOrPassword },
 } = require('../utils/constants');
@@ -39,14 +39,14 @@ function findUserByCredentials({ email, password }) {
     .select('+password')
     .then((user) => {
       if (!user) {
-        throw new ValidationError(incorrectEmailOrPassword);
+        throw new AuthorizationError(incorrectEmailOrPassword);
       }
       foundUser = user;
       return bcrypt.compare(password, foundUser.password);
     })
     .then((matched) => {
       if (!matched) {
-        throw new ValidationError(incorrectEmailOrPassword);
+        throw new AuthorizationError(incorrectEmailOrPassword);
       }
       return foundUser;
     });
